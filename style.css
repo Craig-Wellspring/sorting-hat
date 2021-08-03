@@ -1,0 +1,51 @@
+:root {
+    --headerColor: rgb(200, 200, 200);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+
+    margin: 0;
+
+
+    background-color: white;
+}
+
+
+.headerContainer {
+    background-color: var(--headerColor);
+    padding: 20px;
+}
+
+h1 {
+    font-size: 8vw;
+}
+
+#error-message {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.studentsContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.cardContainers {
+    width: 50%;
+    
+    padding: 10px;
+    border: 1px solid var(--headerColor);
+    border-radius: 5px;
+    margin: 10px;
+}
+
+
+#enrolledStudents {
+}
+#expelledStudents {
+}
