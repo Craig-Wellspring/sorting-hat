@@ -44,8 +44,16 @@ h1 {
     margin: 10px;
 }
 
+.student-card {
+    padding: 10px;
+    border: 1px solid var(--headerColor);
 
-#enrolledStudents {
+    justify-content: center;
+    text-align: center;
 }
-#expelledStudents {
+
+.card-img {
+    max-height: 200px;
+    max-width: 200px;
+
 }
