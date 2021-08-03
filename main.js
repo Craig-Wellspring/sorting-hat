@@ -13,14 +13,14 @@ const houses = {
 const registerEvents = () => {
     document
         .querySelector("#displayFormBtn")
-        .addEventListener("click", displayForm);
+        .addEventListener("click", displayStudentForm);
 
     document
         .querySelector("#formContainer")
         .addEventListener("click", enrollStudent);
 
     document
-        .querySelector("#enrolledStudents")
+        .querySelector("#studentsContainer")
         .addEventListener("click", expelStudent);
 
     // document
@@ -28,16 +28,16 @@ const registerEvents = () => {
     //         .addEventListener("click", filterStudents);
 };
 
-const renderToDOM = (divId, content) => {
-    document
-        .querySelector(divId)
-        .innerHTML = content;
+const renderToDOM = (divId, content, clear = true) => {
+    const targetDiv = document.querySelector(divId);
+
+    clear ? targetDiv.innerHTML = content : targetDiv.innerHTML += content;
 };
 
-const displayForm = () => {
-    const content = `
+const displayStudentForm = () => {
+    const element = `
         <div class="card m-3 justify-content-center">
-            <div class="card-body text-center">  
+            <div class="form-body text-center">  
                 <h2>Enter Student's Name</h2>
                 <div id="error-message"></div>
                 <div class="d-flex col-md-6 offset-md-3">
@@ -48,13 +48,41 @@ const displayForm = () => {
         </div>
     `;
 
-    renderToDOM("#formContainer", content);
+    renderToDOM("#formContainer", element);
+};
+
+const displayStudentsContainer = () => {
+    const element = `
+        <div class="cardContainers" id="firstYearsContainer">
+            <h3>First Year Students</h3>
+            <div class="filterButtonsTray">
+                <button class="btn btn-filter btn-secondary" id="gryffindor-btn">Gryffindor</button>
+                <button class="btn btn-filter btn-secondary" id="hufflepuff-btn">Hufflepuff</button>
+                <button class="btn btn-filter btn-secondary" id="ravenclaw-btn">Ravenclaw</button>
+                <button class="btn btn-filter btn-secondary" id="slytherin-btn">Slytherin</button>
+            </div>
+            <div class="studentCardDrawer" id="enrolledStudents"></div>
+        </div>
+    `;
+    
+    renderToDOM("#studentsContainer", element, false); 
+};
+
+const displayArmyContainer = () => {
+    const element = `
+    <div class="cardContainers" id="armyContainer">
+        <h3>Voldemort's Army</h3>
+        <div class="studentCardDrawer" id="expelledStudents">No death eaters...yet!</div>
+    </div>
+    `;
+
+    renderToDOM("#studentsContainer", element, false);
 };
 
 
-const newStudentCard = (student, index, includeButton) => {
+const generateStudentCard = (student, index, includeButton) => {
     let newCard = `
-        <div class="student-card m-3" id="${index}">
+        <div class="student-card" id="${index}">
             <img class="card-img" src="${houses[student.house]}" alt="${houses[student.house]} Image">
             <div class="card-body">
                 <h4 class="card-title"><b>${student.name}</b></h4>
@@ -83,11 +111,12 @@ const printCards = () => {
 
     studentsArray.forEach((student, index) => {
         if (student.house === Object.keys(houses)[Object.keys(houses).length - 1]){
-            expelledString += newStudentCard(student, index, false);
+            expelledString += generateStudentCard(student, index, false);
         } else {
-            enrolledString += newStudentCard(student, index, true);
+            enrolledString += generateStudentCard(student, index, true);
         };
     });
+
 
     renderToDOM("#enrolledStudents", enrolledString);
 
@@ -129,17 +158,25 @@ const enrollStudent = (event) => {
             studentsArray.push(newStudent(nameInput.value));
             nameInput.value = "";
             
+            if (!document.querySelector("#firstYearsContainer")) {
+                displayStudentsContainer();
+            };
+
             printCards();
-        }
-    }
+        };
+    };
 };
 
 const expelStudent = (event) => {
     if (event.target.type === 'button') {
         studentsArray[event.target.id].house = Object.keys(houses)[Object.keys(houses).length - 1];
-    }
+        
+        if (!document.querySelector("#armyContainer")) {
+            displayArmyContainer();
+        };
 
-    printCards();
+        printCards();
+    };
 };
 
 
