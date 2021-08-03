@@ -20,7 +20,7 @@ const registerEvents = () => {
         .addEventListener("click", enrollStudent);
 
     document
-        .querySelector("#enrolledStudents")
+        .querySelector("#studentsContainer")
         .addEventListener("click", expelStudent);
 
     // document
@@ -28,15 +28,10 @@ const registerEvents = () => {
     //         .addEventListener("click", filterStudents);
 };
 
-const renderToDOM = (divId, content) => {
-    document
-        .querySelector(divId)
-        .innerHTML = content;
-};
-const appendToDOM = (divId, content) => {
-    document
-        .querySelector(divId)
-        .innerHTML += content;
+const renderToDOM = (divId, content, clear = true) => {
+    const targetDiv = document.querySelector(divId);
+
+    clear ? targetDiv.innerHTML = content : targetDiv.innerHTML += content;
 };
 
 const displayStudentForm = () => {
@@ -66,22 +61,22 @@ const displayStudentsContainer = () => {
                 <button class="btn btn-filter btn-secondary" id="ravenclaw-btn">Ravenclaw</button>
                 <button class="btn btn-filter btn-secondary" id="slytherin-btn">Slytherin</button>
             </div>
-            <div class="enrolledStudentsDrawer" id="enrolledStudents"></div>
+            <div class="studentCardDrawer" id="enrolledStudents"></div>
         </div>
     `;
     
-    appendToDOM("#studentsContainer", element); 
+    renderToDOM("#studentsContainer", element, false); 
 };
 
 const displayArmyContainer = () => {
     const element = `
     <div class="cardContainers" id="armyContainer">
         <h3>Voldemort's Army</h3>
-        <div class="expelledStudentsDrawer" id="expelledStudents">No death eaters...yet!</div>
+        <div class="studentCardDrawer" id="expelledStudents">No death eaters...yet!</div>
     </div>
     `;
 
-    appendToDOM("#studentsContainer", element);
+    renderToDOM("#studentsContainer", element, false);
 };
 
 
