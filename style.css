@@ -24,20 +24,51 @@ h1 {
     font-size: 8vw;
 }
 
+.form-body {
+    padding: 15px;
+}
+
 #error-message {
     color: red;
     font-weight: bold;
     margin-bottom: 10px;
 }
 
-.studentsContainer {
+#studentsContainer {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+
+    background-color: blue;
 }
 
-.cardContainers {
-    width: 50%;
-    
+.btn{
+    border: 1px solid black;
+    color: white;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.btn-filter {
+    margin: 5px;
+}
+#gryffindor-btn {
+    background-color: #7F0909;
+}
+
+#hufflepuff-btn {
+    background-color: #EEE117;
+}
+
+#ravenclaw-btn {
+    background-color: #000A90;
+}
+
+#slytherin-btn {
+    background-color: #0D6217;
+}
+
+.cardContainers, .student-card {  
+
     padding: 10px;
     border: 1px solid var(--headerColor);
     border-radius: 5px;
@@ -45,15 +76,26 @@ h1 {
 }
 
 .student-card {
-    padding: 10px;
-    border: 1px solid var(--headerColor);
+    max-width: 20vw;
+    
+    background-color:darkgoldenrod;
+}
 
-    justify-content: center;
-    text-align: center;
+.cardContainers {
+    flex-grow: 1;
+    flex-wrap: wrap;
+    
+
+    background-color:cornflowerblue;
 }
 
 .card-img {
-    max-height: 200px;
-    max-width: 200px;
+    width: 12vw;
+    height: 12vw;
+}
 
+.card-body {
+    font-size: 3vw;
+    
+    background-color:darkseagreen;
 }
