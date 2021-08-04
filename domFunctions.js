@@ -131,8 +131,6 @@ const houseFilterBtn = (event) => {
     const targetID = event.target.id.slice(0, -4);
 
     if (targetID !== "filterButtons") {
-        console.log("currentFilter: " + currentFilter);
-        console.log("targetID: " + targetID);
         if (currentFilter !== targetID) {
             currentFilter = targetID;
             printCards(targetID);
