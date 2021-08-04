@@ -2,6 +2,7 @@ import { renderToDOM } from "./renderToDOM.js";
 import { studentsArray, setStudents, houses } from "./schoolData.js";
 import { displayStudentsContainer, displayStudentForm, displayArmyContainer, generateStudentCard } from "./domElements.js";
 
+const deathEater = Object.keys(houses)[Object.keys(houses).length -1];
 
 const sortByName = (array) => {
     const sortedArray = array.sort(function (a, b) {
@@ -29,15 +30,31 @@ const sortByHouse = (array) => {
     return sortedArray;
 };
 
+const filterByHouse = (array, houseFilter) => {
+    const filteredArray = [];
 
-const printCards = () => {
+    array.forEach(student => {
+        if (student.house === houseFilter || student.house === deathEater) {
+            filteredArray.push(student);
+        };
+    });
+
+    return filteredArray;
+};
+
+
+const printCards = (filter = null) => {
     let enrolledString = "";
     let expelledString = "";
 
-    const sortedArray = sortByHouse(sortByName(studentsArray));
+    let sortedArray = sortByHouse(sortByName(studentsArray));
+
+    if (filter) {
+        sortedArray = filterByHouse(sortedArray, filter);
+    };
 
     sortedArray.forEach((student, index) => {
-        if (student.house === Object.keys(houses)[Object.keys(houses).length - 1]){
+        if (student.house === deathEater){
             expelledString += generateStudentCard(student, index);
         } else {
             enrolledString += generateStudentCard(student, index, true);
@@ -87,9 +104,10 @@ const enrollStudent = (event) => {
             
             if (!document.querySelector("#firstYearsContainer")) {
                 displayStudentsContainer();
+                registerStudentButtons();
             };
 
-            printCards();
+            printCards(currentFilter);
         };
     };
 };
@@ -97,13 +115,31 @@ const enrollStudent = (event) => {
 
 const expelStudent = (event) => {
     if (event.target.type === 'button') {
-        studentsArray[event.target.id].house = Object.keys(houses)[Object.keys(houses).length - 1];
+        studentsArray[event.target.id].house = deathEater;
         
         if (!document.querySelector("#armyContainer")) {
             displayArmyContainer();
+            registerStudentButtons();
         };
 
-        printCards();
+        printCards(currentFilter);
+    };
+};
+
+let currentFilter = null;
+const houseFilterBtn = (event) => {
+    const targetID = event.target.id.slice(0, -4);
+
+    if (targetID !== "filterButtons") {
+        console.log("currentFilter: " + currentFilter);
+        console.log("targetID: " + targetID);
+        if (currentFilter !== targetID) {
+            currentFilter = targetID;
+            printCards(targetID);
+        } else {
+            currentFilter = null;
+            printCards();
+        };
     };
 };
 
@@ -116,9 +152,15 @@ const registerEvents = () => {
     document
         .querySelector("#formContainer")
         .addEventListener("click", enrollStudent);
+};
+
+const registerStudentButtons = () => {
+    document
+        .querySelector("#filterButtonsTray")
+        .addEventListener("click", houseFilterBtn);
 
     document
-        .querySelector("#studentsContainer")
+        .querySelector("#enrolledStudents")
         .addEventListener("click", expelStudent);
 };
 

@@ -19,6 +19,15 @@ body {
     background-color: var(--backgroundColor);
 }
 
+/* #formContainer {
+    height: 20px;
+    background-color: aqua;
+}
+
+#studentsContainer {
+    height: 20px;
+    background-color: blue;
+} */
 
 .headerContainer {
     background-color: var(--headerColor);
