@@ -23,7 +23,7 @@ const displayStudentsContainer = () => {
     const element = `
         <div class="cardContainers" id="firstYearsContainer">
             <h3>First Year Students</h3>
-            <div class="filterButtonsTray">
+            <div id="filterButtonsTray">
                 <button class="btn btn-filter btn-secondary" id="gryffindor-btn">Gryffindor</button>
                 <button class="btn btn-filter btn-secondary" id="hufflepuff-btn">Hufflepuff</button>
                 <button class="btn btn-filter btn-secondary" id="ravenclaw-btn">Ravenclaw</button>
