@@ -1,7 +1,7 @@
 export const studentsArray = [];
 
-export const setStudents = (object) => {
-    studentsArray.push(object);
+export const setStudents = (_object) => {
+    studentsArray.push(_object);
     return studentsArray;
 };
 

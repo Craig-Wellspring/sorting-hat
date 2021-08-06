@@ -1,3 +1,3 @@
-import { initPage } from "./domFunctions.js";
+import { initPage } from "./DOMFunctions.js";
 
 initPage();
