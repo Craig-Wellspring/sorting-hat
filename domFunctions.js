@@ -1,63 +1,38 @@
 import { renderToDOM } from "./renderToDOM.js";
 import { studentsArray, setStudents, houses } from "./schoolData.js";
-import { displayStudentsContainer, displayStudentForm, displayArmyContainer, generateStudentCard } from "./domElements.js";
+import { displayStudentsContainer, displayStudentForm, displayArmyContainer, generateStudentCard } from "./DOMElements.js";
 
-const deathEater = Object.keys(houses)[Object.keys(houses).length -1];
+const  deathEater = Object.keys(houses)[Object.keys(houses).length -1];
 
-const sortByName = (array) => {
-    const sortedArray = array.sort(function (a, b) {
-        const nameA = a.name.toUpperCase();
-        const nameB = b.name.toUpperCase();
-
-        if (nameA < nameB) return -1;
-        if (nameA > nameB) return 1;
+const sortArray = (_array) => {
+    return _array.sort(function (_a, _b) {
+        if (_a.name < _b.name) return -1;
+        if (_a.name > _b.name) return 1;
         return 0;
-});
-
-    return sortedArray;
-};
-
-const sortByHouse = (array) => {
-    const sortedArray = array.sort(function (a, b) {
-        const nameA = a.house.toUpperCase();
-        const nameB = b.house.toUpperCase();
-
-        if (nameA < nameB) return -1;
-        if (nameA > nameB) return 1;
+    })
+    .sort(function(_a, _b) {
+        if (_a.house < _b.house) return -1;
+        if (_a.house > _b.house) return 1;
         return 0;
-});
-
-    return sortedArray;
-};
-
-const filterByHouse = (array, houseFilter) => {
-    const filteredArray = [];
-
-    array.forEach(student => {
-        if (student.house === houseFilter || student.house === deathEater) {
-            filteredArray.push(student);
-        };
     });
-
-    return filteredArray;
 };
 
 
-const printCards = (filter = null) => {
+const printCards = (_filter = null) => {
     let enrolledString = "";
     let expelledString = "";
 
-    let sortedArray = sortByHouse(sortByName(studentsArray));
-
-    if (filter) {
-        sortedArray = filterByHouse(sortedArray, filter);
-    };
-
-    sortedArray.forEach((student, index) => {
-        if (student.house === deathEater){
-            expelledString += generateStudentCard(student, index);
+    sortArray(studentsArray).forEach((_student, _index) => {
+        if (_student.house === deathEater){
+            expelledString += generateStudentCard(_student, _index);
         } else {
-            enrolledString += generateStudentCard(student, index, true);
+            if (_filter) {
+                if (_student.house === _filter) {
+                    enrolledString += generateStudentCard(_student, _index, true);
+                };
+            } else {
+                enrolledString += generateStudentCard(_student, _index, true);
+            };
         };
     });
 
@@ -69,14 +44,11 @@ const printCards = (filter = null) => {
     };
 };
 
-const errorMessage = (input) => {
+const inputError = (_input) => {
     const msg = document.querySelector("#error-message");
+    const errorText = "Please type a name";
 
-    if (!input) {
-        msg.innerHTML = "Please type a name";
-    } else {
-        msg.innerHTML = "";
-    };
+    _input ? msg.innerHTML = "" : msg.innerHTML = errorText;
 
     return msg.innerHTML;
 };
@@ -86,19 +58,19 @@ const randomHouse = () => {
     return Object.keys(houses)[Math.floor(Math.random() * (Object.keys(houses).length - 1))];
 };
 
-const newStudent = (nameInput) => {
+const newStudent = (_nameInput) => {
     return {
-        name: nameInput,
+        name: _nameInput,
         house: randomHouse()
     };
 };
 
 
-const enrollStudent = (event) => {
-    if (event.target.id === "sortBtn"){
+const enrollStudent = (_event) => {
+    if (_event.target.id === "sortBtn"){
         const nameInput = document.querySelector("#student-name");
 
-        if (!errorMessage(nameInput.value)) {
+        if (!inputError(nameInput.value)) {
             setStudents(newStudent(nameInput.value));
             nameInput.value = "";
             
@@ -113,9 +85,9 @@ const enrollStudent = (event) => {
 };
 
 
-const expelStudent = (event) => {
-    if (event.target.type === 'button') {
-        studentsArray[event.target.id].house = deathEater;
+const expelStudent = (_event) => {
+    if (_event.target.type === 'button') {
+        studentsArray[_event.target.id].house = deathEater;
         
         if (!document.querySelector("#armyContainer")) {
             displayArmyContainer();
@@ -127,24 +99,18 @@ const expelStudent = (event) => {
 };
 
 let currentFilter = null;
-const houseFilterBtn = (event) => {
-    const targetID = event.target.id.slice(0, -4);
+const houseFilterBtn = (_event) => {
+    const targetID = _event.target.id.slice(0, -4);
 
     if (targetID !== "filterButtons") {
-        console.log("currentFilter: " + currentFilter);
-        console.log("targetID: " + targetID);
-        if (currentFilter !== targetID) {
-            currentFilter = targetID;
-            printCards(targetID);
-        } else {
-            currentFilter = null;
-            printCards();
-        };
+        currentFilter === targetID ? currentFilter = null : currentFilter = targetID;
+        
+        printCards(currentFilter);
     };
 };
 
 
-const registerEvents = () => {
+const registerSortingButtons = () => {
     document
         .querySelector("#displayFormBtn")
         .addEventListener("click", displayStudentForm);
@@ -166,5 +132,5 @@ const registerStudentButtons = () => {
 
 
 export const initPage = () => {
-    registerEvents();
+    registerSortingButtons();
 };
