@@ -1,6 +1,6 @@
 import { renderToDOM } from "./renderToDOM.js";
-import { studentsArray, addStudent, houses, deathEater } from "./schoolData.js";
-import { displayStudentsContainer, displayStudentForm, displayArmyContainer, generateStudentCard } from "./DOMElements.js";
+import { studentsArray, addStudent, houses, deathEater as expelled } from "./schoolData.js";
+import { displayStudentsContainer, displayStudentForm, displayArmyContainer, generateStudentCard, studentUpdateForm } from "./DOMElements.js";
 
 
 const sortArray = (_array) => {
@@ -22,7 +22,7 @@ const printCards = (_filter = null) => {
     let expelledString = "";
 
     sortArray(studentsArray).forEach((_student, _index) => {
-        _student.house === deathEater ?
+        _student.house === expelled ?
             expelledString += generateStudentCard(_student, _index)
             : _filter ?
                 _student.house === _filter ? enrolledString += generateStudentCard(_student, _index, true) : null
@@ -77,7 +77,7 @@ const updateStudent = (_event) => {
     
     switch (btnClass) {
         case "expel":
-            studentsArray[btnID].house = deathEater;
+            studentsArray[btnID].house = expelled;
             
             if (!document.querySelector("#armyContainer")) {
                 displayArmyContainer();
@@ -88,13 +88,31 @@ const updateStudent = (_event) => {
             break;
         
         case "edit":
-            // studentsArray[btnID].name = deathEater;
-            const newButton = `<input required type="text" class="form-control mx-3" id="student-name" placeholder="Neville Longbottom">`;
-            renderToDOM("#card--" + btnID, newButton)
-            printCards(currentFilter);
+            studentUpdateForm(btnID, studentsArray[btnID].name, studentsArray[btnID].house);
+            registerUpdateButtons(btnID);
             break;
     };
 };
+
+
+
+
+const submitUpdateButton = (_event) => {
+    const [btnClass, btnID] = _event.target.id.split("--");
+
+    studentsArray[btnID].name = document
+        .querySelector("#updateName--" + btnID).value;
+    studentsArray[btnID].house = document
+        .querySelector("#houseSelector--" + btnID).value.toLowerCase();
+
+    printCards(currentFilter);
+};
+  
+
+const cancelUpdateButton = () => {
+    printCards(currentFilter);
+};
+
 
 
 let currentFilter = null;
@@ -127,6 +145,15 @@ const registerStudentButtons = () => {
     document
         .querySelector("#enrolledStudents")
         .addEventListener("click", updateStudent);
+};
+
+const registerUpdateButtons = (_index) => {
+    document
+        .querySelector("#submitUpdateButton--" + _index)
+        .addEventListener("click", submitUpdateButton);
+    document
+        .querySelector("#cancelUpdateButton--" + _index)
+        .addEventListener("click", cancelUpdateButton);
 };
 
 
