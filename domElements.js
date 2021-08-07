@@ -58,8 +58,8 @@ export const generateStudentCard = (_student, _index, _includeButtons = false) =
 
     if (_includeButtons) {
         newCard += `
-            <button type="button" id="edit--${_index}" class="btn btn-edit btn-primary">MANAGE</button>
-            <button type="button" id="expel--${_index}" class="btn btn-expel btn-danger">EXPEL</button>
+            <button type="button" id="edit--${_index}" class="btn btn-edit btn-primary">Manage</button>
+            <button type="button" id="expel--${_index}" class="btn btn-expel btn-danger">Expel</button>
             `;
     };
 
