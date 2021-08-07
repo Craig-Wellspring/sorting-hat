@@ -1,6 +1,9 @@
 :root {
-    --headerColor: rgb(200, 200, 200);
+    --headerColor: white;
     --backgroundColor: black;
+    --primaryFontColor: black;
+    --secondaryFontColor: white;
+    
     --gryffindorColor: #7F0909;
     --hufflepuffColor: #EEE117;
     --ravenclawColor: #000A90;
@@ -8,7 +11,7 @@
 }
 
 body {
-    color: white;
+    color: var(--secondaryFontColor);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -23,7 +26,7 @@ body {
 .headerContainer {
     background-color: var(--headerColor);
     padding: 20px;
-    color: black;
+    color: var(--primaryFontColor);
 }
 
 h1 {
@@ -116,4 +119,8 @@ h1 {
 
 h4 {
     font-size: 2vw;
+}
+
+.form-select {
+    margin-bottom: 15px;
 }
