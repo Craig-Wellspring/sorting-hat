@@ -1,6 +1,6 @@
 export const studentsArray = [];
 
-export const setStudents = (_object) => {
+export const addStudent = (_object) => {
     studentsArray.push(_object);
     return studentsArray;
 };
@@ -12,3 +12,5 @@ export const houses = {
     slytherin: "img/Slytherin_img.png",
     deatheater: "img/DeathEater_img.jpg"
 };
+
+export const deathEater = Object.keys(houses)[Object.keys(houses).length -1];

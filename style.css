@@ -1,6 +1,6 @@
 :root {
     --headerColor: rgb(200, 200, 200);
-    --backgroundColor: white;
+    --backgroundColor: black;
     --gryffindorColor: #7F0909;
     --hufflepuffColor: #EEE117;
     --ravenclawColor: #000A90;
@@ -8,6 +8,7 @@
 }
 
 body {
+    color: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -22,6 +23,7 @@ body {
 .headerContainer {
     background-color: var(--headerColor);
     padding: 20px;
+    color: black;
 }
 
 h1 {
@@ -30,6 +32,7 @@ h1 {
 
 .form-body {
     padding: 15px;
+    background-color: var(--backgroundColor);
 }
 
 #error-message {
@@ -102,6 +105,7 @@ h1 {
 .card-img {
     width: 12vw;
     height: 12vw;
+    margin-bottom: 1vh;
 }
 
 .card-body {
