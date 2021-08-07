@@ -1,8 +1,7 @@
 import { renderToDOM } from "./renderToDOM.js";
-import { studentsArray, setStudents, houses } from "./schoolData.js";
+import { studentsArray, addStudent, houses, deathEater } from "./schoolData.js";
 import { displayStudentsContainer, displayStudentForm, displayArmyContainer, generateStudentCard } from "./DOMElements.js";
 
-const  deathEater = Object.keys(houses)[Object.keys(houses).length -1];
 
 const sortArray = (_array) => {
     return _array.sort(function (_a, _b) {
@@ -23,40 +22,22 @@ const printCards = (_filter = null) => {
     let expelledString = "";
 
     sortArray(studentsArray).forEach((_student, _index) => {
-        if (_student.house === deathEater){
-            expelledString += generateStudentCard(_student, _index);
-        } else {
-            if (_filter) {
-                if (_student.house === _filter) {
-                    enrolledString += generateStudentCard(_student, _index, true);
-                };
-            } else {
-                enrolledString += generateStudentCard(_student, _index, true);
-            };
-        };
+        _student.house === deathEater ?
+            expelledString += generateStudentCard(_student, _index)
+            : _filter ?
+                _student.house === _filter ? enrolledString += generateStudentCard(_student, _index, true) : null
+                : enrolledString += generateStudentCard(_student, _index, true)
     });
 
-
     renderToDOM("#enrolledStudents", enrolledString);
-
-    if (expelledString) {
-        renderToDOM("#expelledStudents", expelledString);
-    };
-};
-
-const inputError = (_input) => {
-    const msg = document.querySelector("#error-message");
-    const errorText = "Please type a name";
-
-    _input ? msg.innerHTML = "" : msg.innerHTML = errorText;
-
-    return msg.innerHTML;
+    expelledString ? renderToDOM("#expelledStudents", expelledString) : null;
 };
 
 
 const randomHouse = () => {
     return Object.keys(houses)[Math.floor(Math.random() * (Object.keys(houses).length - 1))];
 };
+
 
 const newStudent = (_nameInput) => {
     return {
@@ -66,12 +47,17 @@ const newStudent = (_nameInput) => {
 };
 
 
+const inputError = (_input) => {
+    return document.querySelector("#error-message").innerHTML = _input ? "" : "Please type a name";
+};
+
+
 const enrollStudent = (_event) => {
     if (_event.target.id === "sortBtn"){
         const nameInput = document.querySelector("#student-name");
 
         if (!inputError(nameInput.value)) {
-            setStudents(newStudent(nameInput.value));
+            addStudent(newStudent(nameInput.value));
             nameInput.value = "";
             
             if (!document.querySelector("#firstYearsContainer")) {
@@ -79,24 +65,37 @@ const enrollStudent = (_event) => {
                 registerStudentButtons();
             };
 
+            currentFilter = null;
+            printCards();
+        };
+    };
+};
+
+
+const updateStudent = (_event) => {
+    const [btnClass, btnID] = _event.target.id.split("--");
+    
+    switch (btnClass) {
+        case "expel":
+            studentsArray[btnID].house = deathEater;
+            
+            if (!document.querySelector("#armyContainer")) {
+                displayArmyContainer();
+                registerStudentButtons();
+            };
+    
             printCards(currentFilter);
-        };
-    };
-};
-
-
-const expelStudent = (_event) => {
-    if (_event.target.type === 'button') {
-        studentsArray[_event.target.id].house = deathEater;
+            break;
         
-        if (!document.querySelector("#armyContainer")) {
-            displayArmyContainer();
-            registerStudentButtons();
-        };
-
-        printCards(currentFilter);
+        case "edit":
+            // studentsArray[btnID].name = deathEater;
+            const newButton = `<input required type="text" class="form-control mx-3" id="student-name" placeholder="Neville Longbottom">`;
+            renderToDOM("#card--" + btnID, newButton)
+            printCards(currentFilter);
+            break;
     };
 };
+
 
 let currentFilter = null;
 const houseFilterBtn = (_event) => {
@@ -127,7 +126,7 @@ const registerStudentButtons = () => {
 
     document
         .querySelector("#enrolledStudents")
-        .addEventListener("click", expelStudent);
+        .addEventListener("click", updateStudent);
 };
 
 

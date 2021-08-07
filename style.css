@@ -102,6 +102,7 @@ h1 {
 .card-img {
     width: 12vw;
     height: 12vw;
+    margin-bottom: 1vh;
 }
 
 .card-body {

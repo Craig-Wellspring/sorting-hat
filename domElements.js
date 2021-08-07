@@ -13,7 +13,8 @@ export const displayStudentForm = () => {
                    <button id="sortBtn" class="btn btn-primary mb-2">Sort!</button>
                 </div>
             </div>
-        </div>`;
+        </div>
+        `;
 
     renderToDOM("#formContainer", element);
 };
@@ -29,7 +30,8 @@ export const displayStudentsContainer = () => {
                 <button class="btn btn-filter btn-secondary" id="slytherin-btn">Slytherin</button>
             </div>
             <div class="studentCardDrawer" id="enrolledStudents"></div>
-        </div>`;
+        </div>
+        `;
     
     renderToDOM("#studentsContainer", element, false); 
 };
@@ -39,27 +41,32 @@ export const displayArmyContainer = () => {
     <div class="cardContainers" id="armyContainer">
         <h3>Voldemort's Army</h3>
         <div class="studentCardDrawer" id="expelledStudents">No death eaters...yet!</div>
-    </div>`;
+    </div>
+    `;
 
     renderToDOM("#studentsContainer", element, false);
 };
 
 export const generateStudentCard = (_student, _index, _includeButtons = false) => {
     let newCard = `
-        <div class="student-card" id="${_index}">
+        <div class="student-card" id="card--${_index}">
             <img class="card-img" src="${houses[_student.house]}" alt="${houses[_student.house]} Image">
             <div class="card-body">
                 <h4 class="card-title"><b>${_student.name}</b></h4>
-                <p class="card-text">${_student.house.toUpperCase()}</p>`;
+                <p class="card-text">${_student.house.toUpperCase()}</p>
+                `;
 
     if (_includeButtons) {
         newCard += `
-            <button type="button" id="${_index}" class="btn btn-expel btn-danger">EXPEL</button>`;
+            <button type="button" id="edit--${_index}" class="btn btn-edit btn-info">EDIT</button>
+            <button type="button" id="expel--${_index}" class="btn btn-expel btn-danger">EXPEL</button>
+            `;
     };
 
     newCard += `
             </div>
-        </div>`;
+        </div>
+        `;
 
     return newCard;
 };
