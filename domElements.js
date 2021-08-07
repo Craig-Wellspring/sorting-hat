@@ -58,8 +58,8 @@ export const generateStudentCard = (_student, _index, _includeButtons = false) =
 
     if (_includeButtons) {
         newCard += `
-            <button type="button" id="edit--${_index}" class="btn btn-edit btn-info">MANAGE</button>
-            <button type="button" id="expel--${_index}" class="btn btn-expel btn-danger">EXPEL</button>
+            <button type="button" id="edit--${_index}" class="btn btn-edit btn-primary">Manage</button>
+            <button type="button" id="expel--${_index}" class="btn btn-expel btn-danger">Expel</button>
             `;
     };
 
@@ -81,7 +81,7 @@ export const studentUpdateForm = (_index, _name, _house) => {
             <form>
               <div class="mb-3 update-input">
                 <label for="updateName" class="form-label">Student Name</label>
-                <input type="text" class="form-control name-input" id="updateName--${_index}" value="${_name}"/>
+                <input type="text" class="form-control name-input text-center font-weight-bold" id="updateName--${_index}" value="${_name}"/>
               </div>
               <label for="houseSelector" class="form-label">House</label>
               <select class="form-select" id="houseSelector--${_index}">
@@ -90,7 +90,7 @@ export const studentUpdateForm = (_index, _name, _house) => {
                 <option value="${housesList[1].toUpperCase()}">${housesList[1].toUpperCase()}</option>
                 <option value="${housesList[2].toUpperCase()}">${housesList[2].toUpperCase()}</option>
               </select>
-              <button type="button" class="btn btn-primary" id="submitUpdateButton--${_index}">Submit</button>
+              <button type="button" class="btn btn-success" id="submitUpdateButton--${_index}">Submit</button>
               <button type="button" class="btn btn-danger" id="cancelUpdateButton--${_index}">Cancel</button>
             </form>
           </div>
